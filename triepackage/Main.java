@@ -24,7 +24,7 @@ public class Main {
         
 
         
-
+        System.out.println("Contoh NIK: 11000018");
         Scanner scanner = new Scanner(System.in);
         System.out.print("Masukkan NIK yang akan dicari: ");
         String nikToSearch = scanner.nextLine();
