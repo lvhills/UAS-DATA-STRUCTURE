@@ -21,6 +21,7 @@ public class Trie {
         node.TTL = TTL;
     }
 
+    
     public String[] search(String NIK) {
         TrieNode node = root;
         for (int i = 0; i < NIK.length(); i++) {
