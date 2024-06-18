@@ -1,14 +1,27 @@
 package triepackage;
 
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Trie {
     private TrieNode root;
+    private Map<String, Integer> provinceCount;
 
     public Trie() {
         root = new TrieNode();
+        provinceCount = new HashMap<>();
+        initializeProvinceCounts();
     }
 
-    public void insert(String NIK, String nama, String birthPlace, String birthDate) {
-        String TTL = birthPlace + ", " + birthDate;
+    private void initializeProvinceCounts() {
+        for (String kodeProvinsi : Data.KodeProvinsi.values()) {
+            provinceCount.put(kodeProvinsi, 45); // Starting from 45, so the next will be 46
+        }
+    }
+
+    public void insert(String NIK, String nama, String tempatLahir, String tanggalLahir) {
+        String TTL = tempatLahir + ", " + tanggalLahir;
         TrieNode node = root;
         for (int i = 0; i < NIK.length(); i++) {
             char ch = NIK.charAt(i);
@@ -21,7 +34,13 @@ public class Trie {
         node.TTL = TTL;
     }
 
-    
+    public String generateNIK(String asalProvinsi) {
+        String kodeProvinsi = Data.KodeProvinsi.getOrDefault(asalProvinsi, "00");
+        int count = provinceCount.getOrDefault(kodeProvinsi, 45) + 1;
+        provinceCount.put(kodeProvinsi, count);
+        return String.format("%s%06d", kodeProvinsi, count);
+    }
+
     public String[] search(String NIK) {
         TrieNode node = root;
         for (int i = 0; i < NIK.length(); i++) {
@@ -61,5 +80,25 @@ public class Trie {
             return node.children.isEmpty();
         }
         return false;
+    }
+
+    // New method to get all data
+    public void displayAllData() {
+        displayAllData(root);
+    }
+
+    private void displayAllData(TrieNode node) {
+        if (node == null) {
+            return;
+        }
+        if (node.isEndOfWord) {
+            System.out.println("NIK: " + node.NIK);
+            System.out.println("Nama: " + node.nama);
+            System.out.println("Tempat Tanggal Lahir: " + node.TTL);
+            System.out.println();
+        }
+        for (TrieNode child : node.children.values()) {
+            displayAllData(child);
+        }
     }
 }
