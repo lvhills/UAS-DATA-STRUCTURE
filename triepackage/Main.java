@@ -33,9 +33,12 @@ public class Main {
                     String asalProvinsi = scanner.nextLine();
 
                     String NIK = trie.generateNIK(asalProvinsi);
-                    trie.insert(NIK, nama, tempatLahir, tanggalLahir);
-
-                    System.out.println("Data telah berhasil didaftarkan. NIK anda yaitu " + NIK);
+                    if (NIK == null) {
+                        System.out.println("Provinsi Tidak Ada / Tidak Tersedia");
+                    } else {
+                        trie.insert(NIK, nama, tempatLahir, tanggalLahir);
+                        System.out.println("Data telah berhasil didaftarkan. NIK anda yaitu " + NIK);
+                    }
                     break;
                 case 2:
                     System.out.print("Masukkan NIK yang akan dicari: ");
@@ -52,8 +55,15 @@ public class Main {
                 case 3:
                     System.out.print("Masukkan NIK yang akan dihapus: ");
                     String nikToDelete = scanner.nextLine();
-                    trie.delete(nikToDelete);
-                    System.out.println("Data telah dihapus jika NIK ditemukan.");
+                    String[] deletedData = trie.delete(nikToDelete);
+                    if (deletedData != null) {
+                        System.out.println("Data dengan NIK: " + deletedData[0]);
+                        System.out.println("Nama: " + deletedData[1]);
+                        System.out.println("Tempat Tanggal Lahir: " + deletedData[2]);
+                        System.out.println("Berhasil dihapus.");
+                    } else {
+                        System.out.println("Data tidak ditemukan atau gagal dihapus.");
+                    }
                     break;
                 case 4:
                     trie.displayAllData();

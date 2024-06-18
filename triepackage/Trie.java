@@ -1,6 +1,5 @@
 package triepackage;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +34,10 @@ public class Trie {
     }
 
     public String generateNIK(String asalProvinsi) {
-        String kodeProvinsi = Data.KodeProvinsi.getOrDefault(asalProvinsi, "00");
+        String kodeProvinsi = Data.KodeProvinsi.getOrDefault(asalProvinsi, null);
+        if (kodeProvinsi == null) {
+            return null;
+        }
         int count = provinceCount.getOrDefault(kodeProvinsi, 45) + 1;
         provinceCount.put(kodeProvinsi, count);
         return String.format("%s%06d", kodeProvinsi, count);
@@ -56,33 +58,35 @@ public class Trie {
         return null;
     }
 
-    public void delete(String NIK) {
-        delete(root, NIK, 0);
+    public String[] delete(String NIK) {
+        return delete(root, NIK, 0);
     }
 
-    private boolean delete(TrieNode node, String NIK, int depth) {
+    private String[] delete(TrieNode node, String NIK, int depth) {
         if (depth == NIK.length()) {
             if (!node.isEndOfWord) {
-                return false;
+                return null;
             }
+            String[] deletedData = {node.NIK, node.nama, node.TTL};
             node.isEndOfWord = false;
-            return node.children.isEmpty();
+            if (node.children.isEmpty()) {
+                return deletedData;
+            } else {
+                return null;
+            }
         }
         char ch = NIK.charAt(depth);
         TrieNode child = node.children.get(ch);
         if (child == null) {
-            return false;
+            return null;
         }
-        boolean shouldDeleteCurrentNode = delete(child, NIK, depth + 1);
-
-        if (shouldDeleteCurrentNode) {
+        String[] deletedData = delete(child, NIK, depth + 1);
+        if (deletedData != null && child.children.isEmpty() && !child.isEndOfWord) {
             node.children.remove(ch);
-            return node.children.isEmpty();
         }
-        return false;
+        return deletedData;
     }
 
-    // New method to get all data
     public void displayAllData() {
         displayAllData(root);
     }
