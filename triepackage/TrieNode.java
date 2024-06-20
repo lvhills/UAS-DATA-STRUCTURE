@@ -9,6 +9,7 @@ public class TrieNode {
     String nama;
     String TTL;
 
+    
     public TrieNode() {
         children = new HashMap<>();
         isEndOfWord = false;

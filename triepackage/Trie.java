@@ -15,7 +15,7 @@ public class Trie {
 
     private void initializeProvinceCounts() {
         for (String kodeProvinsi : Data.KodeProvinsi.values()) {
-            provinceCount.put(kodeProvinsi, 45);
+            provinceCount.put(kodeProvinsi, 45); // Starting from 45
         }
     }
 

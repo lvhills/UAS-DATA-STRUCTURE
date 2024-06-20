@@ -12,7 +12,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Pilih opsi:");
+            System.out.println("Menu:");
             System.out.println("1. Insert data");
             System.out.println("2. Search data");
             System.out.println("3. Delete data");
