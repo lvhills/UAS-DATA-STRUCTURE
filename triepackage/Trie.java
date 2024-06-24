@@ -15,7 +15,7 @@ public class Trie {
 
     private void initializeProvinceCounts() {
         for (String kodeProvinsi : Data.KodeProvinsi.values()) {
-            provinceCount.put(kodeProvinsi, 150); 
+            provinceCount.put(kodeProvinsi, 100); 
         }
     }
 
@@ -38,7 +38,7 @@ public class Trie {
         if (kodeProvinsi == null) {
             return null;
         }
-        int count = provinceCount.getOrDefault(kodeProvinsi, 150) + 1;
+        int count = provinceCount.getOrDefault(kodeProvinsi, 100) + 1;
         provinceCount.put(kodeProvinsi, count);
         return String.format("%s%06d", kodeProvinsi, count);
     }
